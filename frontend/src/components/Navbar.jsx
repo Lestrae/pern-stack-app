@@ -4,7 +4,8 @@ import ThemeSelector from './ThemeSelector';
 import { useProductStore } from '../store/useProductStore';
 
 
-function Navbar() {
+
+function Navbar({search, setSearch}) {
   const {products} = useProductStore()
   const {pathname} = useResolvedPath()
   const isHomePage = pathname === '/'
@@ -26,7 +27,13 @@ function Navbar() {
               </div>
             </Link>
           </div>
-          
+          {/* Search bar */}
+          <input 
+            type='text' 
+            value={search} 
+            onChange={e => setSearch(e.target.value)} 
+            className='flex gap-5 items-center text-xs text-neutral bg-primary placeholder-neutral rounded-full py-2 px-10' 
+            placeholder='Search product name'/>
           {/* Right Section*/}
           <div className="flex items-center gap-5">
             <ThemeSelector />

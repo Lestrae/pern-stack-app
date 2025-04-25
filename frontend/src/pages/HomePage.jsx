@@ -4,11 +4,14 @@ import { PlusCircleIcon, RefreshCwIcon, PackageIcon } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import AddProductModal from '../components/AddProductModal';
 
-function HomePage() {
+function HomePage({ search, setSearch }) {
   const { products, loading, error, fetchProducts } = useProductStore();
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(search.toLowerCase())
+  );
 useEffect(() => {
   fetchProducts();
-}, [fetchProducts]);
+}, [fetchProducts, search]);
 
 console.log('products', products)
 
@@ -24,7 +27,7 @@ console.log('products', products)
           <RefreshCwIcon className='size-5' />
         </button>
       </div>
-      {/* ADD PRODUCT MODAL: TO BE CONTINUED */}
+      {/* ADD PRODUCT MODAL*/}
       <AddProductModal />
 
       {error && <div className='alert alert-error'>{error}</div>}
@@ -49,8 +52,8 @@ console.log('products', products)
           </div>
         ) : (
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />  
+            {filteredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         )}

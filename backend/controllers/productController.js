@@ -1,4 +1,23 @@
 import { sql } from '../config/db.js';
+
+export const searchProducts = async (req, res) => {
+  try {
+    const { search } = req.query;
+    const productsSearch = await sql`
+      SELECT * FROM products
+      WHERE name ILIKE ${search}
+      ORDER BY created_at DESC
+    `;
+    console.log('Products fetched', productsFetch);
+    res.status(200).json({ success: true, data: productsFetch });
+  } catch (error) {
+    console.log('Error fetching data', error);
+    res.status(500).json({ 
+      success: false, 
+      message: error.message 
+    });
+  }
+}
 export const getProducts = async (req, res) => {
   try {
     const productsFetch = await sql`
